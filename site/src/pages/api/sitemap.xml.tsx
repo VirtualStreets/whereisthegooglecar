@@ -1,18 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "~/env";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export const runtime = "experimental-edge";
+
+export default async function handler() {
   // removes slash at the end of next_public_vercel_url
   // an extrah slash is added in production
   let url = env.NEXT_PUBLIC_VERCEL_URL;
   if (url.endsWith("/")) {
     url = url.slice(0, -1);
   }
-
-  // instructing vercel to cache
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/xml");
-  res.setHeader("Cache-control", "stale-while-revalidate, s-maxage=3600");
 
   // get all spotting ids for sitemap
   const startTime = performance.now();
@@ -21,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   console.log(endTime - startTime);
 
   // generate sitemap
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  const createSitemap = () => `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
   
   ${generateUrlAttribute(`${url}/`, new Date().toISOString(), "always", "1.0")}
@@ -32,7 +28,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
   ${spottingIds.map((spotting) => generateUrlAttribute(`${url}/spotting/${spotting.id}`, spotting.date)).join("")}
   </urlset>`;
-  res.end(xml);
+
+  // set response content & headers
+  const res = new Response(createSitemap());
+  res.headers.set("Content-Type", "application/xml");
+  res.headers.set("Cache-control", "stale-while-revalidate, s-maxage=3600");
+
+  return res;
 }
 
 function generateUrlAttribute(url: string, date?: string, changeFreq?: string, priority?: string) {

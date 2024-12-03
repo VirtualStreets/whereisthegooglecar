@@ -10,7 +10,9 @@ import { axiosInstance } from "~/utils/api/swrFetcher";
 import { type z } from "zod";
 import { type SearchIDSchema } from "~/utils/api/schemas/input_schema";
 
-export default function Page(props: InferGetServerSidePropsType<typeof getStaticProps>) {
+export const runtime = "experimental-edge";
+
+export default function Page(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (props.data) {
     // format date
     const dateFormatted = convertDate(props.data.date);
@@ -71,15 +73,7 @@ export default function Page(props: InferGetServerSidePropsType<typeof getStatic
   }
 }
 
-export const getStaticPaths = async () => {
-  // fallback: 'blocking' will generate not-yet-generated pages on-demand
-  return {
-    fallback: "blocking",
-    paths: [],
-  };
-};
-
-export const getStaticProps = async ({ params }: { params: z.infer<typeof SearchIDSchema> }) => {
+export const getServerSideProps = async ({ params }: { params: z.infer<typeof SearchIDSchema> }) => {
   // get id from query
   const id_query = params.id;
   if (id_query) {
@@ -90,7 +84,6 @@ export const getStaticProps = async ({ params }: { params: z.infer<typeof Search
       if (data) {
         return {
           props: { data },
-          revalidate: 60,
         };
       }
     } catch (error) {
