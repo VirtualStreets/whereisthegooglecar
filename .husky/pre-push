@@ -22,20 +22,3 @@ if ! git diff --quiet HEAD~1 HEAD -- site; then
 
   exit 0
 fi
-
-# Deploy Wrangler
-# Check if there are changes in the 'api' folder
-if ! git diff --quiet HEAD~1 HEAD -- api; then
-  # Enter API directory
-  API_PROJECT_PATH="api"
-  cd "$API_PROJECT_PATH" || { echo "Failed to enter API directory"; exit 1; }
-
-  # Deploy Wrangler
-  bunx wrangler deploy --minify --keep-vars
-  DEPLOY_STATUS=$?
-
-  exit 0
-fi
-
-# If no changes in 'api', exit without doing anything
-exit 0

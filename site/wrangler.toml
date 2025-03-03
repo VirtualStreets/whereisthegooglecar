@@ -1,3 +1,0 @@
-name = "pot_site"
-compatibility_date = "2024-07-12"
-compatibility_flags = [ "nodejs_compat" ]
