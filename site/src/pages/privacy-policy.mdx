@@ -1,0 +1,26 @@
+---
+title: Privacy Policy
+---
+
+import GenericMdxLayout from "~/components/generic-mdx-layout";
+
+WhereIsTheGoogleCar uses a **self-hosted instance of Plausible** to understand how users
+interact with our site and to improve the user experience.
+
+Plausible is designed with privacy in mind, as it does not collect any sort of personal
+information, storing cookies, or sharing data with third-parties or advertising companies.
+Plausible (nor we) engage in data mining or harvesting, nor do we monetize any information
+collected. We gather anonymous usage data solely for statistical purposes, ensuring that
+individual visitors remain untracked. **The aggregated data that we can see, includes referral
+sources, top pages, visit duration, and device information.**
+
+For more information regarding Plausible, please see their
+[Privacy and Compliance](https://plausible.io/data-policy) page.
+
+export default function MDXPage({ children, ...props }) {
+  return (
+    <GenericMdxLayout frontmatter={frontmatter} {...props}>
+      {children}
+    </GenericMdxLayout>
+  );
+}

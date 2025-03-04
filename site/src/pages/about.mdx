@@ -1,0 +1,60 @@
+---
+title: About
+---
+
+import GenericMdxLayout from "~/components/generic-mdx-layout";
+
+### We are _NOT_ Google
+
+Instead, we are the largest public database of Street View Sightings! Our contributions are
+made by enthusiasts who love Google Street View. Since 2020, we have been monitoring Google
+Street View Vehicle Spottings that are being identified and shared online, and our
+documentation extends back to 2007. We also document sightings of other Street View services,
+such as Apple Maps.
+
+All contributions are done by the VirtualStreets community, and we are not affiliated with
+Google (nor any other mapping company) in any way.
+
+All pictures are owned by their respective authors. If you are the owner of a picture in this
+site and would like it removed, please contact us.
+
+This site is developed and maintained by ktz.
+
+---
+
+## FAQ
+
+### Where do you get your data?
+
+Data is obtained from VirtualStreets volunteers who submit their sightings.
+
+### When will Google (or Apple) drive by my location?
+
+We do not know if Google (or any other Street View service) will drive to a specified location.
+
+Please refer to the following Street View providers' official schedules for more information:
+
+- [Google](https://www.google.com/streetview/how-it-works/#district-filter)
+- [Apple](https://maps.apple.com/imagecollection/locations)
+
+You can also [read our articles here](https://virtualstreets.org/) for any official
+confirmation (from a government entity or from the service) that isn't displayed on the
+Street View providers' site.
+
+### I just saw a Street View car (or have an old picture), how do I submit it?
+
+Submit your sighting in [our site](/submit) with the date, image, and location (if possible)
+to submit your spotting. Our contributors will review your submission and add it to our
+database.
+
+### Are you affiliated with the previous whereisthegooglecar.com?
+
+No. We just happened to take the domain.
+
+export default function MDXPage({ children, ...props }) {
+  return (
+    <GenericMdxLayout frontmatter={frontmatter} {...props}>
+      {children}
+    </GenericMdxLayout>
+  );
+}

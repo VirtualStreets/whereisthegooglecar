@@ -1,11 +1,7 @@
 import { Button } from "~/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "~/components/ui/sheet";
 import Link from "next/link";
-import {
-  CollapsibleTrigger,
-  CollapsibleContent,
-  Collapsible,
-} from "~/components/ui/collapsible";
+import { CollapsibleTrigger, CollapsibleContent, Collapsible } from "~/components/ui/collapsible";
 import { ChevronRightIcon, MenuIcon, MoonIcon, SunIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -15,7 +11,6 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Search } from "~/components/layout/search";
 
-import { Donate } from "react-kofi-overlay";
 import { MdOutlineStreetview } from "react-icons/md";
 
 import { useRouter } from "next/router";
@@ -52,24 +47,15 @@ export default function MobileNavBar(props: MobileNavBarProps) {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent
-          side="right"
-          className="flex h-full flex-col justify-between"
-        >
+        <SheetContent side="right" className="flex h-full flex-col justify-between">
           <div>
             <div className="flex h-full flex-col gap-6 py-6">
-              <Link
-                className="flex items-center gap-2 text-lg font-semibold"
-                href="#"
-              >
+              <Link className="flex items-center gap-2 text-lg font-semibold" href="#">
                 <MdOutlineStreetview size={40} className="flex" />
                 <span className="font-bold">WhereIsTheGoogleCar</span>
               </Link>
               <nav className="grid gap-4">
-                <Link
-                  className="flex w-full items-center py-2 text-lg font-semibold"
-                  href="/"
-                >
+                <Link className="flex w-full items-center py-2 text-lg font-semibold" href="/">
                   Home
                 </Link>
                 <Collapsible className="grid gap-2">
@@ -79,37 +65,22 @@ export default function MobileNavBar(props: MobileNavBarProps) {
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <div className="-mx-6 grid gap-2 bg-gray-100 p-6 dark:bg-gray-800">
-                      <Link
-                        className="flex w-full items-center py-2 text-base font-medium"
-                        href="/"
-                      >
+                      <Link className="flex w-full items-center py-2 text-base font-medium" href="/">
                         Google
                       </Link>
-                      <Link
-                        className="flex w-full items-center py-2 text-base font-medium"
-                        href="/services/apple"
-                      >
+                      <Link className="flex w-full items-center py-2 text-base font-medium" href="/services/apple">
                         Apple
                       </Link>
-                      <Link
-                        className="flex w-full items-center py-2 text-base font-medium"
-                        href="/services/others"
-                      >
+                      <Link className="flex w-full items-center py-2 text-base font-medium" href="/services/others">
                         Others
                       </Link>
                     </div>
                   </CollapsibleContent>
                 </Collapsible>
-                <Link
-                  className="flex w-full items-center py-2 text-lg font-semibold"
-                  href="/submit"
-                >
+                <Link className="flex w-full items-center py-2 text-lg font-semibold" href="/submit">
                   Submit Sighting
                 </Link>
-                <Link
-                  className="flex w-full items-center py-2 text-lg font-semibold"
-                  href="/about"
-                >
+                <Link className="flex w-full items-center py-2 text-lg font-semibold" href="/about">
                   About
                 </Link>
               </nav>
@@ -118,21 +89,8 @@ export default function MobileNavBar(props: MobileNavBarProps) {
 
           {/* Bottom */}
           <div className="space-y-4">
-            <div className="flex justify-center">
-              <Donate
-                username="shmugo"
-                styles={{
-                  donateBtn: { backgroundColor: "#29abe0", width: "80%" },
-                }}
-              >
-                ❤️ Tip Me
-              </Donate>
-            </div>
-
             <div className="flex justify-between">
-              <p className="flex items-center font-bold text-primary/90">
-                © VirtualStreets
-              </p>
+              <p className="flex items-center font-bold text-primary/90">© VirtualStreets</p>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -143,15 +101,9 @@ export default function MobileNavBar(props: MobileNavBarProps) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => props.setTheme("light")}>
-                    Light
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => props.setTheme("dark")}>
-                    Dark
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => props.setTheme("system")}>
-                    System
-                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => props.setTheme("light")}>Light</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => props.setTheme("dark")}>Dark</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => props.setTheme("system")}>System</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

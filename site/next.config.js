@@ -1,36 +1,36 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
-await import("./src/env.js");
-const { withPlausibleProxy } = await import("next-plausible");
+import { withPlausibleProxy } from "next-plausible";
+import withMDX from "@next/mdx";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import "./src/env.js";
 
-/** @type {import("next").NextConfig} */
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-const config = withPlausibleProxy({
-  customDomain: "https://analytics.shmugo.co",
-})({
-  reactStrictMode: true,
-
-  /**
-   * If you are using `appDir` then you must comment the below `i18n` config out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
+const config = withMDX({
+  extension: /\.mdx$/,
+  options: {
+    remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
   },
+})(
+  withPlausibleProxy({
+    customDomain: "https://analytics.shmugo.co",
+  })({
+    reactStrictMode: true,
 
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.whereisthegooglecar.com", // works for now :P
-      },
-    ],
-  },
-});
+    i18n: {
+      locales: ["en"],
+      defaultLocale: "en",
+    },
+
+    pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
+
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "cdn.whereisthegooglecar.com", // works for now :P
+        },
+      ],
+    },
+  }),
+);
 
 export default config;

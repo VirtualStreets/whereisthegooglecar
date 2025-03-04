@@ -11,12 +11,8 @@ const links = [
     icon: <Twitter />,
   },
   {
-    href: "https://github.com/shmugoh/whereisthegooglecar",
+    href: "https://github.com/virtualstreets/whereisthegooglecar",
     icon: <Github />,
-  },
-  {
-    href: "https://ko-fi.com/shmugo",
-    icon: <Coffee />,
   },
 ];
 
