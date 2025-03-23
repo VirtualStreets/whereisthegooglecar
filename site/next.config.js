@@ -11,7 +11,7 @@ const config = withMDX({
   },
 })(
   withPlausibleProxy({
-    customDomain: "https://analytics.shmugo.co",
+    customDomain: "https://analytics.ktz.sh",
   })({
     reactStrictMode: true,
 
