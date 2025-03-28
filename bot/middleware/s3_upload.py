@@ -8,6 +8,8 @@ import ffmpeg
 from io import BytesIO
 import requests
 
+from minio import Minio
+
 class LoggingFormatter(logging.Formatter):
     # Colors
     black = "\x1b[30m"
@@ -56,24 +58,30 @@ logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
 class ImageUpload:
-    def __init__(self, aws_session, aws_bucket):
+    def __init__(self, s3_bucket: str, s3_client: Minio):
       """
       Initializes an instance of the ImageUpload class.
 
       Args:
-        aws_session (boto3.Session): The AWS session object.
-        aws_bucket (str): The name of the AWS S3 bucket.
+        s3_bucket (str): The name of the S3 bucket.
+        s3_client (Minio): The S3 session object.
 
       Returns:
         None
       """
-      self.aws_session = aws_session
-      self.aws_bucket = aws_bucket
-      self.s3 = aws_session.resource('s3')
+      self.s3_bucket: str = s3_bucket
+      self.s3_client: Minio = s3_client
 
     def upload(self, image, id):
+      object_key = f"images/{id}.webp"
       try:
-        self.s3.Bucket(self.aws_bucket).put_object(Key=f'images/{id}.webp', Body=image, ContentType='image/png')
+        logger.info(f"Uploading image {id}.webp to S3")
+        self.s3_client.put_object(
+          bucket_name=self.s3_bucket,
+          object_name=object_key,
+          data=image,
+          length=len(image.getvalue()),
+        )
         logger.info(f"Uploaded image {id}.webp to S3")
         return f'images/{id}.webp'
       except Exception as e:
@@ -82,7 +90,10 @@ class ImageUpload:
 
     def delete(self, id, mode="images", type=".webp"):
       try:
-        self.s3.Object(self.aws_bucket, f'${mode}/{id}.{type}').delete()
+        self.s3_client.remove_object(
+          bucket_name=self.s3_bucket,
+          object_name='${mode}/{id}.{type}'
+        )
         logger.info(f"Deleted image {id} from S3")
       except Exception as e:
         logger.error(f"Failed to delete image {id}: {e}")
@@ -124,7 +135,7 @@ class ImageUpload:
           os.remove(temp.name)
         
         logger.info(f"Processed image {image_url}")
-        return {"image": output.getvalue(), "image_res": image.size}
+        return {"image": output, "image_res": image.size}
       except Exception as e:
         logger.error(f"Failed to process image {image_url}: {e}")
         raise Exception(f"S3 Processing: {e}")

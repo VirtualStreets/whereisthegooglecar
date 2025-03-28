@@ -15,10 +15,10 @@ import sys
 
 import asyncpg
 from upstash_redis import Redis
-from utils.database import DatabaseManager
+from middleware.database import DatabaseManager
 
-import boto3
-from utils.s3_upload import ImageUpload
+from minio import Minio
+from middleware.s3_upload import ImageUpload
 
 import discord
 from discord.ext import commands, tasks
@@ -177,37 +177,28 @@ class DiscordBot(commands.Bot):
                 self.logger.error(f"Error connecting to DB: {e}")
                 exit(1)
     
-    async def init_aws(self) -> None:
-        """
-        Initializes the AWS connection pool.
-
-        This method creates a connection pool to the AWS S3 using the
-        environment variables for the connection details. It then assigns the pool to
-        `self.aws` so that it can be accessed from anywhere in the bot using `self.aws`.
-        """
-        try:
-            self.aws = boto3.Session(
-                aws_access_key_id=os.getenv('AWS_SECRET_PUBLIC_KEY'),
-                aws_secret_access_key=os.getenv('AWS_SECRET_PRIVATE_KEY')
-            )
-            self.logger.info("AWS connection pool created.")
-        except Exception as e:
-            self.logger.error(f"Error connecting to AWS: {e}")
-            
     async def init_s3(self) -> None:
         """
-        Initializes the AWS S3 connection pool.
+        Initializes the S3 connection pool.
 
-        This method creates a connection pool to the AWS S3 using the
+        This method creates a connection pool to the S3 using the
         environment variables for the connection details. It then assigns the pool to
         `self.s3` so that it can be accessed from anywhere in the bot using `self.s3`.
         """
         try:
-            self.s3 = ImageUpload(self.aws, os.getenv('AWS_BUCKET_NAME'))
-            self.logger.info("AWS S3 connection pool created.")
+            s3_connection = Minio(
+                endpoint=(os.getenv("AWS_API_ENDPOINT")),
+                access_key=os.getenv('AWS_SECRET_PUBLIC_KEY'),
+                secret_key=os.getenv('AWS_SECRET_PRIVATE_KEY')
+            )
+            self.s3 = ImageUpload(
+                s3_bucket=os.getenv("AWS_BUCKET_NAME"),
+                s3_client=s3_connection
+            )
+            self.logger.info("S3 connection pool created.")
         except Exception as e:
-            self.logger.error(f"Error connecting to AWS S3: {e}")
-
+            self.logger.error(f"Error connecting to S3: {e}")
+            
     async def load_cogs(self) -> None:
         """
         The code in this function is executed whenever the bot will start.
@@ -255,7 +246,6 @@ class DiscordBot(commands.Bot):
         self.status_task.start()
         await self.init_db()
         
-        await self.init_aws()
         await self.init_s3()
 
     async def on_message(self, message: discord.Message) -> None:

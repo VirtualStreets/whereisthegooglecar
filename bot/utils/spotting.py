@@ -5,9 +5,9 @@ import flag
 
 from discord import Message
 
-from utils.database import DatabaseManager
+from middleware.database import DatabaseManager
 
-from utils.s3_upload import ImageUpload
+from middleware.s3_upload import ImageUpload
 
 class spotting():
   def __init__(self):

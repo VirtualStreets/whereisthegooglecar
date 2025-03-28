@@ -1,10 +1,13 @@
 FROM gorialis/discord.py:3.10.11-alpine-full
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /bot
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the project into the image
+ADD . /bot
 
-COPY . .
+# Sync the project into a new environment, using the frozen lockfile
+WORKDIR /bot
+RUN uv sync --frozen
 
-CMD [ "python", "bot.py" ]
+CMD [ "uv", "run", "bot.py" ]

@@ -1,6 +1,6 @@
 from discord import Message
-from utils.database import DatabaseManager
-from utils.s3_upload import ImageUpload
+from middleware.database import DatabaseManager
+from middleware.s3_upload import ImageUpload
 import utils.date_utils as date_utils
 from datetime import datetime
 

@@ -5,8 +5,7 @@ from discord.ext.commands import Context
 
 from asyncpg import exceptions as ps
 from utils.spotting import spotting
-from utils.database import DatabaseManager
-from utils.s3_upload import ImageUpload
+from middleware.database import DatabaseManager
 
 class Listener(commands.Cog, name="listener"):
     def __init__(self, bot) -> None:

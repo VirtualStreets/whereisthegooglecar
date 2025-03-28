@@ -6,7 +6,7 @@ from discord.ext.commands import check_any, has_guild_permissions, is_owner
 
 import os
 from utils.spotting import spotting
-from utils.database import DatabaseManager
+from middleware.database import DatabaseManager
 from utils.submission import Submission
 import utils.date_utils as date_utils
 

@@ -7,7 +7,7 @@ from asyncpg import exceptions as ps
 
 import os
 from utils.spotting import spotting
-from utils.database import DatabaseManager
+from middleware.database import DatabaseManager
 
 guild_id = os.getenv("GUILD_ID")
 # i can't call self.bot.guild_id within the @app_commands.guilds decorator, so i have to hard-code it
