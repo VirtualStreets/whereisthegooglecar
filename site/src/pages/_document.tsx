@@ -4,16 +4,12 @@ import Script from "next/script";
 export default function Document() {
   return (
     <Html>
-      <Head />
+      <Head>
+        <meta name="clckd" content="395639a2db3d0dab47e13858bc537bab" />
+      </Head>
       <body>
         <Main />
         <NextScript />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9669677049263987"
-          crossOrigin="anonymous"
-          strategy="beforeInteractive"
-        ></Script>
       </body>
     </Html>
   );
